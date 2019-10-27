@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "eslint": "^6.1.0",
+    "mobx": "^5.14.2",
+    "mobx-react": "^6.1.4",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0"
@@ -28,7 +31,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "eslint": "^5.16.0"
-  }
+  "devDependencies": {}
 }
