@@ -82,7 +82,9 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.6.0"
+  },
   "jest": {
     "roots": [
       "<rootDir>/src"
@@ -136,7 +138,12 @@
       "react-app"
     ],
     "plugins": [
-      "transform-decorators-legacy"
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ]
     ]
   }
 }
