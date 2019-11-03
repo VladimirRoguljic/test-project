@@ -10,13 +10,27 @@ class App extends Component {
         this.props.VehiclesStore.filter = e.target.value
     }
 
+    addVehicle(event) {
+        if (event.which === 13) {
+            this.props.VehiclesStore.addVehicle(event.target.value);
+            event.target.value = "";
+        }
+    }
+
+    removeVehicle(id) {
+        console.log('removing vehicle');
+        this.props.VehiclesStore.removeVehicle(id)
+    }
+
     render() {
         const {VehiclesStore} = this.props;
         const {filter, filterVehicles} = this.props.VehiclesStore;
         const vehiclesList = filterVehicles.map(vehicle => {
             return (
                 <li key={vehicle.id}>
-                    Vehicle : {vehicle.name} Model: {vehicle.model}
+                    <span>Vehicle : {vehicle.name}</span>
+                    <span> Model: {vehicle.model}</span>
+                    <button onClick={() => this.removeVehicle(vehicle.id)}>Remove vehicle</button>
                 </li>
             )
         });
@@ -25,9 +39,14 @@ class App extends Component {
             <div className="App">
                 <h1>Vehicles List</h1>
                 <div>{filter}</div>
-                <span><input value={filter} type="text" onChange={this.filter.bind(this)}/></span>
+                <span>
+                    <label>Filter vehicles: </label>
+                    <input value={filter} type="text" onChange={this.filter.bind(this)}/>
+                </span>
                 <h3>You have {VehiclesStore.vehicleCount} vehicles in your list!</h3>
                 <ul>{vehiclesList}</ul>
+                <label>Add new vehicle: </label>
+                <input style={{'marginBottom': '10px'}} type="text" onKeyPress={this.addVehicle.bind(this)}/>
             </div>
         );
     }

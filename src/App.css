@@ -4,7 +4,10 @@
 
 .App ul {
   padding: 0;
+}
 
+.App span {
+  display: block;
 }
 
 .App ul li {
