@@ -18,7 +18,6 @@ class App extends Component {
     }
 
     removeVehicle(id) {
-        console.log('removing vehicle');
         this.props.VehiclesStore.removeVehicle(id)
     }
 

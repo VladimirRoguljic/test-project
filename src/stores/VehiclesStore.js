@@ -1,16 +1,6 @@
 import {observable, action, computed} from "mobx";
+import Vehicle from "../VehicleModel/VehicleModel";
 
-class Vehicle {
-    @observable name;
-    @observable model;
-    @observable id;
-
-    constructor(name, model) {
-        this.name = name;
-        this.model = model;
-        this.id = Date.now();
-    }
-}
 
 class VehiclesStore {
     @observable vehicles = [
