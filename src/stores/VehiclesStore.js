@@ -13,6 +13,8 @@ class VehiclesStore {
         {id: 7, name: 'Opel', model: 'Insignia'},
     ];
 
+    @observable unsorted  = false;
+
     @observable filter = "";
 
     @computed get filterVehicles() {
@@ -30,6 +32,11 @@ class VehiclesStore {
     @action sortVehicle = () => {
         const sortedArray = this.vehicles.slice().sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
         this.vehicles.replace(sortedArray)
+    };
+
+    @action unSortVehicle = () => {
+        const sortedArray = this.vehicles.slice().sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).reverse();
+        this.vehicles.replace(sortedArray);
     };
 
 

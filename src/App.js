@@ -22,7 +22,13 @@ class App extends Component {
     }
 
     sortVehicle() {
-        this.props.VehiclesStore.sortVehicle()
+        this.props.VehiclesStore.sortVehicle();
+        this.props.VehiclesStore.unsorted = !this.props.VehiclesStore.unsorted;
+    }
+
+    reversSort() {
+        this.props.VehiclesStore.unSortVehicle();
+        this.props.VehiclesStore.unsorted = !this.props.VehiclesStore.unsorted;
     }
 
     render() {
@@ -45,7 +51,9 @@ class App extends Component {
                 <span>
                     <label>Filter vehicles: </label>
                     <input value={filter} type="text" onChange={this.filter.bind(this)}/>
-                    <button onClick={() => this.sortVehicle()} style={{'marginLeft': '10px'}}>Sort Vehicles</button>
+                    <button   onClick={() => VehiclesStore.unsorted ?  this.reversSort() : this.sortVehicle() } style={{'marginLeft': '10px'}}>
+                        {VehiclesStore.unsorted ? 'Unsorted Vehicles' : 'Sorted Vehicles'}
+                    </button>
 
                 </span>
                 <h3>You have {VehiclesStore.vehicleCount} vehicles in your list!</h3>
