@@ -21,6 +21,10 @@ class App extends Component {
         this.props.VehiclesStore.removeVehicle(id)
     }
 
+    sortVehicle() {
+        this.props.VehiclesStore.sortVehicle()
+    }
+
     render() {
         const {VehiclesStore} = this.props;
         const {filter, filterVehicles} = this.props.VehiclesStore;
@@ -41,6 +45,8 @@ class App extends Component {
                 <span>
                     <label>Filter vehicles: </label>
                     <input value={filter} type="text" onChange={this.filter.bind(this)}/>
+                    <button onClick={() => this.sortVehicle()} style={{'marginLeft': '10px'}}>Sort Vehicles</button>
+
                 </span>
                 <h3>You have {VehiclesStore.vehicleCount} vehicles in your list!</h3>
                 <ul>{vehiclesList}</ul>
