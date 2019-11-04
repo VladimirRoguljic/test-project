@@ -52,7 +52,7 @@ class App extends Component {
                     <label>Filter vehicles: </label>
                     <input value={filter} type="text" onChange={this.filter.bind(this)}/>
                     <button   onClick={() => VehiclesStore.unsorted ?  this.reversSort() : this.sortVehicle() } style={{'marginLeft': '10px'}}>
-                        {VehiclesStore.unsorted ? 'Unsorted Vehicles' : 'Sorted Vehicles'}
+                        {VehiclesStore.unsorted ? 'Descending Vehicles' : 'Ascending Vehicles'}
                     </button>
 
                 </span>
