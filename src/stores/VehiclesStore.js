@@ -39,7 +39,7 @@ class VehiclesStore {
 
     @computed get filterVehicles() {
         let matchesFilter = new RegExp(this.filter, "i");
-        return this.vehicles.filter(vehicle => !this.filter || matchesFilter.test(Object.values(vehicle.value)))
+        return this.vehicles.filter(vehicle => !this.filter || matchesFilter.test(Object.values(vehicle)))
     }
 
     @action addVehicle = (value) => {
