@@ -9,6 +9,11 @@ import AddNewVehicle from "./components/AddNewVehicle/AddNewVehicle";
 
 @observer
 class App extends Component {
+
+    componentDidMount() {
+         return this.props.VehiclesStore.loadVehicles()
+    }
+
     filterVehicle = (e) => {
         this.props.VehiclesStore.filter = e.target.value;
         this.setState({
@@ -49,6 +54,7 @@ class App extends Component {
     render() {
         const {VehiclesStore} = this.props;
         const {vehicles} = this.props.VehiclesStore;
+
         return (
             <div className="App">
                 <FilterVehicle

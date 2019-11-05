@@ -1,33 +1,55 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, runInAction} from "mobx";
 import Vehicle from "../VehicleModel/VehicleModel";
+import axios from '../axios_instance'
 
 
 class VehiclesStore {
-    @observable vehicles = [
-        {id: 1, name: 'Ford', model: 'Fiesta'},
-        {id: 2, name: 'Audi', model: 'Q3'},
-        {id: 3, name: 'BMW', model: '325'},
-        {id: 4, name: 'Mercedes', model: '220D'},
-        {id: 5, name: 'Seat', model: 'Ibiza'},
-        {id: 6, name: 'Renault', model: 'Kadjar'},
-        {id: 7, name: 'Opel', model: 'Insignia'},
-    ];
 
-    @observable unsorted  = false;
+    @observable vehicles = [];
+
+    @observable unsorted = false;
 
     @observable filter = "";
 
+    @action
+    async loadVehicles() {
+        try {
+            const response = await axios.get('vehicles.json');
+            runInAction(() => {
+                this.vehicles = response.data;
+            });
+        } catch (error) {
+            runInAction(() => alert(error.message));
+        }
+    };
+
+    @action
+    async saveNewVehicles(data) {
+        try {
+
+            await axios.put('vehicles.json', data);
+            runInAction(() => {
+                this.loadVehicles()
+            })
+        } catch (error) {
+            runInAction(() => alert(error.message));
+        }
+    }
+
+
     @computed get filterVehicles() {
         let matchesFilter = new RegExp(this.filter, "i");
-        return this.vehicles.filter(vehicle => !this.filter || matchesFilter.test(Object.values(vehicle)))
+        return this.vehicles.filter(vehicle => !this.filter || matchesFilter.test(Object.values(vehicle.value)))
     }
 
     @action addVehicle = (value) => {
         let vehicle = value.split(',');
         vehicle.name = vehicle[0];
         vehicle.model = vehicle[1];
-        this.vehicles.push(new Vehicle(vehicle.name, vehicle.model))
+        this.vehicles.push(new Vehicle(vehicle.name, vehicle.model));
+        return this.saveNewVehicles(this.vehicles)
     };
+
 
     @action sortVehicle = () => {
         const sortedArray = this.vehicles.slice().sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
