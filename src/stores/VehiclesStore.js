@@ -3,7 +3,6 @@ import Vehicle from "../VehicleModel/VehicleModel";
 import axios from '../axios_instance'
 import wrapper from '../wrapper'
 
-
 class VehiclesStore {
 
     @observable vehicles = [];
@@ -31,10 +30,7 @@ class VehiclesStore {
                 this.vehicles = fetchVehicles;
                 this.loading = false
             });
-        } else {
-            alert(error.message);
-            this.loading = true;
-        }
+        } else alert(error.message);
     }
 
     @action
@@ -47,10 +43,7 @@ class VehiclesStore {
                 this.loading = false;
             });
 
-        } else {
-            alert(error.message);
-            this.loading = true;
-        }
+        } else alert(error.message);
     }
 
 
