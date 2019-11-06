@@ -1,6 +1,7 @@
 import {observable, action, computed, runInAction} from "mobx";
 import Vehicle from "../VehicleModel/VehicleModel";
 import axios from '../axios_instance'
+import wrapper from '../wrapper'
 
 
 class VehiclesStore {
@@ -11,9 +12,11 @@ class VehiclesStore {
 
     @observable filter = "";
 
+
     @action
     async loadVehicles() {
-        try {
+        const {error} = await wrapper(axios.get('vehicles.json'));
+        if (!error) {
             const response = await axios.get('vehicles.json');
             const fetchVehicles = [];
             for (let key in response.data) {
@@ -24,21 +27,18 @@ class VehiclesStore {
             runInAction(() => {
                 this.vehicles = fetchVehicles;
             });
-        } catch (error) {
-            runInAction(() => alert(error.message));
-        }
-    };
+        } else alert(error.message);
+    }
 
     @action
     async saveNewVehicles(data) {
-        try {
-            await axios.post('vehicles.json', data);
+        const {error} = await wrapper(axios.post('vehicles.json', data));
+        if (!error) {
             runInAction(() => {
                 this.loadVehicles()
-            })
-        } catch (error) {
-            runInAction(() => alert(error.message));
-        }
+            });
+
+        } else alert(error.message);
     }
 
 
