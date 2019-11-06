@@ -51,12 +51,7 @@ class VehiclesStore {
         let vehicle = value.split(',');
         vehicle.name = vehicle[0];
         vehicle.model = vehicle[1];
-        const {id, name, model} = new Vehicle(vehicle.name, vehicle.model);
-        let objectToSend = {
-            id: id,
-            name: name,
-            model: model
-        };
+        let objectToSend = {...new Vehicle(vehicle.name, vehicle.model)};
         return this.saveNewVehicles(objectToSend)
     };
 
