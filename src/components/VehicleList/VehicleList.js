@@ -1,10 +1,18 @@
 import React from 'react'
 import './VehicleList.css';
 import {inject} from "mobx-react";
+import Spinner from '../../UI/Spinner'
 
 
 const VehicleList = (props) => {
-    const {filterVehicles} = props.VehiclesStore;
+    const {filterVehicles, loading} = props.VehiclesStore;
+
+    if(loading) {
+        return (
+            <Spinner />
+        )
+    }
+
     const vehiclesList = filterVehicles.map(vehicle => {
         return (
             <ul key={vehicle.id}>

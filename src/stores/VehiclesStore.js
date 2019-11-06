@@ -12,12 +12,15 @@ class VehiclesStore {
 
     @observable filter = "";
 
+    @observable loading = false;
+
 
     @action
     async loadVehicles() {
-        const {error} = await wrapper(axios.get('vehicles.json'));
+        this.loading = true;
+        const {error, data} = await wrapper(axios.get('vehicles.json'));
         if (!error) {
-            const response = await axios.get('vehicles.json');
+            const response = data;
             const fetchVehicles = [];
             for (let key in response.data) {
                 fetchVehicles.push({
@@ -26,19 +29,28 @@ class VehiclesStore {
             }
             runInAction(() => {
                 this.vehicles = fetchVehicles;
+                this.loading = false
             });
-        } else alert(error.message);
+        } else {
+            alert(error.message);
+            this.loading = true;
+        }
     }
 
     @action
     async saveNewVehicles(data) {
+        this.loading = true;
         const {error} = await wrapper(axios.post('vehicles.json', data));
         if (!error) {
             runInAction(() => {
-                this.loadVehicles()
+                this.loadVehicles();
+                this.loading = false;
             });
 
-        } else alert(error.message);
+        } else {
+            alert(error.message);
+            this.loading = true;
+        }
     }
 
 
