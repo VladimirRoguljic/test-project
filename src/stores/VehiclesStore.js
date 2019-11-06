@@ -15,8 +15,14 @@ class VehiclesStore {
     async loadVehicles() {
         try {
             const response = await axios.get('vehicles.json');
+            const fetchVehicles = [];
+            for (let key in response.data) {
+                fetchVehicles.push({
+                    ...response.data[key]
+                })
+            }
             runInAction(() => {
-                this.vehicles = response.data;
+                this.vehicles = fetchVehicles;
             });
         } catch (error) {
             runInAction(() => alert(error.message));
@@ -26,8 +32,7 @@ class VehiclesStore {
     @action
     async saveNewVehicles(data) {
         try {
-
-            await axios.put('vehicles.json', data);
+            await axios.post('vehicles.json', data);
             runInAction(() => {
                 this.loadVehicles()
             })
@@ -46,8 +51,13 @@ class VehiclesStore {
         let vehicle = value.split(',');
         vehicle.name = vehicle[0];
         vehicle.model = vehicle[1];
-        this.vehicles.push(new Vehicle(vehicle.name, vehicle.model));
-        return this.saveNewVehicles(this.vehicles)
+        const {id, name, model} = new Vehicle(vehicle.name, vehicle.model);
+        let objectToSend = {
+            id: id,
+            name: name,
+            model: model
+        };
+        return this.saveNewVehicles(objectToSend)
     };
 
 
