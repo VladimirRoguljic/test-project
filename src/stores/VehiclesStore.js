@@ -17,21 +17,13 @@ class VehiclesStore {
     @action
     async loadVehicles() {
         this.loading = true;
-        const {error, data} = await wrapper(axios.get('vehicles.json'));
-        if (!error) {
-            const response = data;
+        const {error, data} = await wrapper(axios.get('vehicles.json?orderBy="id"&limitToFirst=5'));
+        if (data) {
             const fetchVehicles = [];
-            for (let key in response.data) {
-                fetchVehicles.push({
-                    ...response.data[key]
-                })
-            }
-            runInAction(() => {
-                this.vehicles = fetchVehicles;
-                this.loading = false
-            });
+            this.paginate(data, fetchVehicles)
         } else alert(error.message);
     }
+
 
     @action
     async saveNewVehicles(data) {
@@ -69,6 +61,42 @@ class VehiclesStore {
     @action unSortVehicle = () => {
         const sortedArray = this.vehicles.slice().sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).reverse();
         this.vehicles.replace(sortedArray);
+    };
+
+    @action
+    async nextPage() {
+        let lastElementInArray = this.vehicles.pop();
+        let trackId = lastElementInArray.id;
+        const {data, error} = await wrapper(axios.get(`vehicles.json?orderBy="id"&limitToFirst=5&startAt=${trackId}`));
+        if (data) {
+            const fetchVehicles = [];
+            this.paginate(data, fetchVehicles);
+        } else alert(error.message)
+    };
+
+    paginate = (data, fetchVehicles) => {
+        const response = data;
+        for (let key in response.data) {
+            fetchVehicles.push({
+                ...response.data[key]
+            })
+        }
+        runInAction(() => {
+            this.vehicles = fetchVehicles;
+            this.loading = false
+        });
+    };
+
+
+    @action
+    async prevPage() {
+        let elementInArray = this.vehicles.shift();
+        const trackId = elementInArray.id;
+        const {error, data} = await wrapper(axios.get(`vehicles.json?orderBy="id"&limitToLast=5&endAt=${trackId}`));
+        if (data) {
+            const fetchVehicles = [];
+            this.paginate(data, fetchVehicles)
+        } else alert(error.message)
     };
 
 

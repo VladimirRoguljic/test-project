@@ -51,6 +51,14 @@ class App extends Component {
         });
     };
 
+    nextPage  = () => {
+        this.props.VehiclesStore.nextPage();
+    };
+
+    prevPage = ()  => {
+        this.props.VehiclesStore.prevPage()
+    };
+
     render() {
         const {VehiclesStore} = this.props;
         const {vehicles} = this.props.VehiclesStore;
@@ -66,7 +74,10 @@ class App extends Component {
 
                 <VehicleList
                     store={VehiclesStore}
-                    key={vehicles.id} />
+                    key={vehicles.id}
+                    nextPage={this.nextPage}
+                    prevPage={this.prevPage}
+                />
 
                 <AddNewVehicle
                     addVehicle={this.addVehicle} />

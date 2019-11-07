@@ -27,6 +27,10 @@ const VehicleList = (props) => {
     return (
         <div>
             {vehiclesList}
+            <div style={{marginBottom: '10px'}}>
+                <button onClick={() => props.prevPage()}>Prev page</button>
+                <button style={{marginLeft: '10px'}}  onClick={() => props.nextPage()}>Next page</button>
+            </div>
         </div>
     )
 };
