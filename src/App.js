@@ -59,9 +59,13 @@ class App extends Component {
         this.props.VehiclesStore.prevPage()
     };
 
+    deleteRecord = (key) => {
+        this.props.VehiclesStore.deleteRecord(key)
+    };
+
     render() {
         const {VehiclesStore} = this.props;
-        const {vehicles} = this.props.VehiclesStore;
+        const {vehicles, vehicleCount} = this.props.VehiclesStore;
 
         return (
             <div className="App">
@@ -77,6 +81,8 @@ class App extends Component {
                     key={vehicles.id}
                     nextPage={this.nextPage}
                     prevPage={this.prevPage}
+                    vehicleCount={vehicleCount}
+                    deleteVehicle={this.deleteRecord}
                 />
 
                 <AddNewVehicle

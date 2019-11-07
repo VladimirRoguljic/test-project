@@ -13,6 +13,10 @@ class VehiclesStore {
 
     @observable loading = false;
 
+    @observable nextKey;
+
+    @observable prevKey = [];
+
 
     @action
     async loadVehicles() {
@@ -78,7 +82,8 @@ class VehiclesStore {
         const response = data;
         for (let key in response.data) {
             fetchVehicles.push({
-                ...response.data[key]
+                ...response.data[key],
+                keyFirebase: key
             })
         }
         runInAction(() => {
@@ -86,6 +91,16 @@ class VehiclesStore {
             this.loading = false
         });
     };
+
+    @action async deleteRecord (key) {
+        const {data, error} = await wrapper(axios.delete(`vehicles/${key}.json`));
+        if (data) {
+            const fetchVehicles = [];
+            this.paginate(data, fetchVehicles);
+            this.loadVehicles();
+        } else alert(error.message);
+    }
+
 
 
     @action
