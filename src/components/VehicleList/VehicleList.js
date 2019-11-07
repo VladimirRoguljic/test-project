@@ -17,7 +17,8 @@ const VehicleList = (props) => {
         return (
             <ul key={vehicle.id}>
                 <li style={{cursor: 'pointer'}}>
-                    <span>Vehicle : {vehicle.name} <p onClick={() => props.deleteVehicle(vehicle.keyFirebase)} style={{float:'right'}}>Delete</p></span>
+                    <span>Vehicle : {vehicle.name}
+                    <p onClick={() => props.deleteVehicle(vehicle.keyFirebase)} style={{display: 'inline-flex', paddingLeft: '10px'}}>Delete</p></span>
                     <span> Model: {vehicle.model}</span>
                 </li>
             </ul>
